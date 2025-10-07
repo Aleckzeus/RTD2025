@@ -8,7 +8,6 @@ import DiscoverStock1 from './DiscoverStock1.png';
 import DiscoverStock2 from './DiscoverStock2.png';
 import DiscoverStock3 from './DiscoverStock3.png';
 import Pattern1 from './Pattern1.png';
-import HondaCity from './Honda_City.png';
 import HondaCivic from './Honda_Civic.png';
 import Montero from './Montero.png';
 import Hatchback from './Hatchback.png';
@@ -89,6 +88,8 @@ function App() {
                 src={Logo}
                 alt="Rent Then Drive Logo"
                 className="h-12 w-auto"
+                loading="eager"
+                decoding="async"
               />
             </div>
             
@@ -105,6 +106,7 @@ function App() {
             <button
               className="md:hidden text-rtd-deep-blue"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
+              aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
             >
               {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
@@ -115,12 +117,12 @@ function App() {
         {isMenuOpen && (
           <div className="md:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white/95 backdrop-blur-sm">
-              <a href="#home" className="block px-3 py-2 text-rtd-deep-blue font-semibold">Home</a>
-              <a href="#about" className="block px-3 py-2 text-rtd-deep-blue font-semibold">About</a>
-              <a href="#fleet" className="block px-3 py-2 text-rtd-deep-blue font-semibold">Fleet</a>
-              <a href="#services" className="block px-3 py-2 text-rtd-deep-blue font-semibold">Services</a>
-              <a href="#contact" className="block px-3 py-2 text-rtd-deep-blue font-semibold">Contact</a>
-            </div>
+                <a href="#home" className="block px-3 py-4 text-lg text-rtd-deep-blue font-semibold">Home</a>
+                <a href="#about" className="block px-3 py-4 text-lg text-rtd-deep-blue font-semibold">About</a>
+                <a href="#fleet" className="block px-3 py-4 text-lg text-rtd-deep-blue font-semibold">Fleet</a>
+                <a href="#services" className="block px-3 py-4 text-lg text-rtd-deep-blue font-semibold">Services</a>
+                <a href="#contact" className="block px-3 py-4 text-lg text-rtd-deep-blue font-semibold">Contact</a>
+              </div>
           </div>
         )}
       </nav>
@@ -134,6 +136,8 @@ function App() {
             alt="Everest background"
             className="w-full h-full object-cover opacity-50"
             style={{ objectPosition: '50% 65%' }}
+            loading="eager"
+            decoding="async"
           />
         </div>
         {/* Subtle gradient overlay */}
@@ -167,6 +171,8 @@ function App() {
                   src={Logo3}
                   alt="Premium Car Rental Service"
                   className="h-8 w-auto mb-4"
+                  loading="eager"
+                  decoding="async"
                 />
               </div>
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6">
@@ -177,11 +183,11 @@ function App() {
                 We believe amazing drives shouldn't be exclusive to car owners. With simply a license and a thirst for adventure, you're all set for your dream road trip with us.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 mb-8">
-                <button className="bg-rtd-gold hover:bg-rtd-gold/90 text-rtd-deep-blue font-bold px-8 py-4 rounded-lg text-lg transition-all duration-300 flex items-center justify-center group transform hover:scale-105 hover:shadow-2xl shadow-lg">
+                <button className="bg-rtd-gold hover:bg-rtd-gold/90 text-rtd-deep-blue font-bold px-6 py-3 sm:px-8 sm:py-4 rounded-lg text-base sm:text-lg transition-all duration-300 flex items-center justify-center group transform hover:scale-105 hover:shadow-2xl shadow-lg">
                   Book Your Ride
                   <ChevronRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 </button>
-                <button className="border-2 border-rtd-deep-blue text-rtd-deep-blue hover:bg-rtd-deep-blue hover:text-white font-bold px-8 py-4 rounded-lg text-lg transition-all duration-300 transform hover:scale-105">
+                <button className="border-2 border-rtd-deep-blue text-rtd-deep-blue hover:bg-rtd-deep-blue hover:text-white font-bold px-6 py-3 sm:px-8 sm:py-4 rounded-lg text-base sm:text-lg transition-all duration-300 transform hover:scale-105">
                   View Our Fleet
                 </button>
               </div>
@@ -247,6 +253,8 @@ function App() {
                         src={discover.image}
                         alt={discover.title}
                         className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
+                        loading="lazy"
+                        decoding="async"
                       />
                     </div>
                     <div className="absolute inset-0 bg-gradient-to-t from-rtd-deep-blue/90 to-transparent p-8 flex flex-col justify-end transform transition-transform duration-300">
@@ -268,13 +276,15 @@ function App() {
             {/* Navigation arrows */}
             <button 
               onClick={() => setCurrentSlide((prev) => (prev - 1 + 3) % 3)}
-              className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/10 hover:bg-white/20 text-white p-3 rounded-full transition-colors backdrop-blur-sm"
+              className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/10 hover:bg-white/20 text-white p-3 sm:p-4 rounded-full transition-colors backdrop-blur-sm"
+              aria-label="Previous slide"
             >
               <ChevronLeft className="h-6 w-6" />
             </button>
             <button 
               onClick={() => setCurrentSlide((prev) => (prev + 1) % 3)}
-              className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/10 hover:bg-white/20 text-white p-3 rounded-full transition-colors backdrop-blur-sm"
+              className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/10 hover:bg-white/20 text-white p-3 sm:p-4 rounded-full transition-colors backdrop-blur-sm"
+              aria-label="Next slide"
             >
               <ChevronRight className="h-6 w-6" />
             </button>
@@ -286,6 +296,7 @@ function App() {
               <button
                 key={index}
                 onClick={() => setCurrentSlide(index)}
+                aria-label={`Go to slide ${index + 1}`}
                 className={`w-2 h-2 rounded-full transition-colors ${
                   currentSlide === index ? 'bg-rtd-gold w-6' : 'bg-rtd-deep-blue/20'
                 }`}
@@ -411,12 +422,14 @@ function App() {
 
           <div className="space-y-8 -mx-[10vw]">
             {/* First Row: Compact Cars and SUVs */}
-            <div className="flex h-[500px] gap-8">
+            <div className="flex h-[300px] md:h-[500px] gap-8">
               <div className="w-1/2 relative group overflow-hidden">
                 <img 
                   src={HondaCivic} 
                   alt="Compact Cars" 
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+                  loading="lazy"
+                  decoding="async"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-rtd-deep-blue/90 via-rtd-deep-blue/50 to-transparent">
                   <div className="absolute top-12 left-1/2 -translate-x-1/2 text-center">
@@ -435,6 +448,8 @@ function App() {
                   src={Montero} 
                   alt="SUVs" 
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+                  loading="lazy"
+                  decoding="async"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-rtd-deep-blue/90 via-rtd-deep-blue/50 to-transparent">
                   <div className="absolute top-12 left-1/2 -translate-x-1/2 text-center">
@@ -451,12 +466,14 @@ function App() {
             </div>
 
             {/* Second Row: Hatchbacks and Pick-ups */}
-            <div className="flex h-[500px] gap-8">
+            <div className="flex h-[300px] md:h-[500px] gap-8">
               <div className="w-1/2 relative group overflow-hidden">
                 <img 
                   src={Hatchback} 
                   alt="Hatchbacks" 
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+                  loading="lazy"
+                  decoding="async"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-rtd-deep-blue/90 via-rtd-deep-blue/50 to-transparent">
                   <div className="absolute top-12 left-1/2 -translate-x-1/2 text-center">
@@ -475,6 +492,8 @@ function App() {
                   src={FordRanger} 
                   alt="Pick-ups" 
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+                  loading="lazy"
+                  decoding="async"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-rtd-deep-blue/90 via-rtd-deep-blue/50 to-transparent">
                   <div className="absolute top-12 left-1/2 -translate-x-1/2 text-center">
@@ -491,12 +510,14 @@ function App() {
             </div>
 
             {/* Third Row: Premium Sedans and Luxury Cars */}
-            <div className="flex h-[500px] gap-8">
+            <div className="flex h-[300px] md:h-[500px] gap-8">
               <div className="w-1/2 relative group overflow-hidden">
                 <img 
                   src={Lexus} 
                   alt="Premium Sedans" 
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+                  loading="lazy"
+                  decoding="async"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-rtd-deep-blue/90 via-rtd-deep-blue/50 to-transparent">
                   <div className="absolute top-12 left-1/2 -translate-x-1/2 text-center">
@@ -515,6 +536,8 @@ function App() {
                   src={Ferrari} 
                   alt="Luxury Cars" 
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+                  loading="lazy"
+                  decoding="async"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-rtd-deep-blue/90 via-rtd-deep-blue/50 to-transparent">
                   <div className="absolute top-12 left-1/2 -translate-x-1/2 text-center">
@@ -673,12 +696,12 @@ function App() {
           <p className="text-xl text-blue-100 mb-8 leading-relaxed">
             With simply a license and a thirst for adventure, you're all set for your dream road trip with us.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-[#fac522] hover:bg-[#e6b01f] text-[#02336d] font-bold px-8 py-4 rounded-lg text-lg transition-colors inline-flex items-center justify-center group">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <button className="bg-[#fac522] hover:bg-[#e6b01f] text-[#02336d] font-bold px-6 py-3 sm:px-8 sm:py-4 rounded-lg text-base sm:text-lg transition-colors inline-flex items-center justify-center group">
               Book Your Adventure
               <ChevronRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
             </button>
-            <button className="border-2 border-white text-white hover:bg-white hover:text-[#02336d] font-bold px-8 py-4 rounded-lg text-lg transition-colors">
+            <button className="border-2 border-white text-white hover:bg-white hover:text-[#02336d] font-bold px-6 py-3 sm:px-8 sm:py-4 rounded-lg text-base sm:text-lg transition-colors">
               Check Availability
             </button>
           </div>
