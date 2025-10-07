@@ -233,23 +233,7 @@ function App() {
       <section className="py-20 bg-white relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-12">
-            <div ref={el => {
-              if (el) {
-                gsap.fromTo(el, {
-                  opacity: 0,
-                  y: 30
-                }, {
-                  opacity: 1,
-                  y: 0,
-                  duration: 0.8,
-                  scrollTrigger: {
-                    trigger: el,
-                    start: 'top bottom-=100',
-                    once: true
-                  }
-                });
-              }
-            }}>
+            <div>
               <h2 className="text-3xl sm:text-4xl font-bold text-rtd-deep-blue">Discover</h2>
               <div className="w-24 h-1 bg-rtd-gold mt-4"></div>
             </div>
@@ -386,23 +370,7 @@ function App() {
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="text-center mb-16">
-            <div ref={el => {
-              if (el) {
-                gsap.fromTo(el, {
-                  opacity: 0,
-                  y: 30
-                }, {
-                  opacity: 1,
-                  y: 0,
-                  duration: 0.8,
-                  scrollTrigger: {
-                    trigger: el,
-                    start: 'top bottom-=100',
-                    once: true
-                  }
-                });
-              }
-            }}>
+            <div>
               <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6">About Rent Then Drive</h2>
               <div className="w-24 h-1 bg-[#fac522] mx-auto rounded-full"></div>
             </div>
@@ -462,23 +430,7 @@ function App() {
       }}>
         <div className="max-w-[90vw] mx-auto">
           <div className="text-center mb-16 px-4">
-            <div ref={el => {
-              if (el) {
-                gsap.fromTo(el, {
-                  opacity: 0,
-                  y: 30
-                }, {
-                  opacity: 1,
-                  y: 0,
-                  duration: 0.8,
-                  scrollTrigger: {
-                    trigger: el,
-                    start: 'top bottom-=100',
-                    once: true
-                  }
-                });
-              }
-            }}>
+            <div>
               <h2 className="text-3xl sm:text-4xl font-bold text-rtd-deep-blue mb-6">Our Premium Fleet</h2>
               <p className="text-lg text-gray-600 max-w-3xl mx-auto">
                 We curate our fleet by choosing vehicles that align with our vision of having a high-grade roster for every adventure.
@@ -673,23 +625,7 @@ function App() {
         <section className="py-20 bg-rtd-offwhite">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <div ref={el => {
-              if (el) {
-                gsap.fromTo(el, {
-                  opacity: 0,
-                  y: 30
-                }, {
-                  opacity: 1,
-                  y: 0,
-                  duration: 0.8,
-                  scrollTrigger: {
-                    trigger: el,
-                    start: 'top bottom-=100',
-                    once: true
-                  }
-                });
-              }
-            }}>
+            <div>
               <h2 className="text-3xl sm:text-4xl font-bold text-[#02336d] mb-6">What Our Clients Say</h2>
               <p className="text-lg text-gray-600 max-w-3xl mx-auto">
                 Don't just take our word for it. Here's what our satisfied customers have to say about their experience with Rent Then Drive.
@@ -729,26 +665,31 @@ function App() {
                 review: "Professional service with premium vehicles. Made my business trip comfortable and stress-free."
               }
             ].map((testimonial, index) => (
-              <div key={index} className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-shadow">
-                <div className="flex items-center mb-4">
-                  <img 
-                    src={testimonial.image}
-                    alt={testimonial.name}
-                    className="w-12 h-12 rounded-full object-cover mr-4"
-                  />
-                  <div>
-                    <h4 className="font-bold text-[#02336d]">{testimonial.name}</h4>
-                    <p className="text-sm text-gray-600">{testimonial.role}</p>
+              <div key={index} className="relative h-[400px] rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow group">
+                <img 
+                  src={testimonial.image}
+                  alt={testimonial.name}
+                  className="w-full h-full object-cover"
+                />
+                {/* Gradient overlay for text visibility */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity"></div>
+                
+                {/* Content overlay at the bottom */}
+                <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+                  <div className="flex mb-3">
+                    {[...Array(testimonial.rating)].map((_, i) => (
+                      <Star key={i} className="h-5 w-5 text-[#fac522] fill-current" />
+                    ))}
+                  </div>
+                  
+                  <p className="text-lg italic mb-4">"{testimonial.review}"</p>
+                  
+                  <div className="flex items-center">
+                    <h4 className="font-bold text-xl">{testimonial.name}</h4>
+                    <span className="mx-2">•</span>
+                    <p className="text-sm opacity-90">{testimonial.role}</p>
                   </div>
                 </div>
-                
-                <div className="flex mb-3">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="h-4 w-4 text-[#fac522] fill-current" />
-                  ))}
-                </div>
-                
-                <p className="text-gray-600 italic">"{testimonial.review}"</p>
               </div>
             ))}
           </div>
@@ -859,23 +800,7 @@ function App() {
       <section id="contact" className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <div ref={el => {
-              if (el) {
-                gsap.fromTo(el, {
-                  opacity: 0,
-                  y: 30
-                }, {
-                  opacity: 1,
-                  y: 0,
-                  duration: 0.8,
-                  scrollTrigger: {
-                    trigger: el,
-                    start: 'top bottom-=100',
-                    once: true
-                  }
-                });
-              }
-            }}>
+            <div>
               <h2 className="text-3xl sm:text-4xl font-bold text-[#02336d] mb-6">Get in Touch</h2>
               <p className="text-lg text-gray-600 max-w-3xl mx-auto">
                 Ready to start your journey? We're here to help you plan the perfect trip.
