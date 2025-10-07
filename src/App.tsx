@@ -1,0 +1,900 @@
+import React from 'react';
+import { Car, Users, Shield, Clock, Star, MapPin, Phone, Mail, Calendar, ChevronRight, Menu, X, ChevronLeft, ChevronDown, ChevronUp, ArrowRight } from 'lucide-react';
+import Logo from './Logo.png';
+import Logo4 from './Logo_4.png';
+import HeroBackground from './Everest_Blue.png'; // Re-import HD background
+import Logo3 from './Logo_3.png';
+import DiscoverStock1 from './DiscoverStock1.png';
+import DiscoverStock2 from './DiscoverStock2.png';
+import DiscoverStock3 from './DiscoverStock3.png';
+import Pattern1 from './Pattern1.png';
+import HondaCity from './Honda_City.png';
+import HondaCivic from './Honda_Civic.png';
+import Montero from './Montero.png';
+import Hatchback from './Hatchback.png';
+import FordRanger from './Ford_Ranger.png';
+import Lexus from './Lexus.png';
+import Ferrari from './Ferrarri.png';
+
+function App() {
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const [currentSlide, setCurrentSlide] = React.useState(0);
+  const [openFAQ, setOpenFAQ] = React.useState<number | null>(null);
+  const [isHeaderVisible, setIsHeaderVisible] = React.useState(true);
+  const [lastScrollY, setLastScrollY] = React.useState(0);
+  const [sectionTransition, setSectionTransition] = React.useState(0);
+
+  React.useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      
+      // Update scroll progress for animations
+      const heroSection = document.getElementById('home');
+      if (heroSection) {
+        const scrollProgress = Math.min(currentScrollY / window.innerHeight, 1);
+        heroSection.style.setProperty('--scroll', scrollProgress.toString());
+      }
+      
+      // Header visibility logic
+      if (currentScrollY < 100) {
+        setIsHeaderVisible(true);
+      } else {
+        setIsHeaderVisible(currentScrollY < lastScrollY);
+      }
+      
+      // Enhanced section transition logic
+      const aboutSection = document.getElementById('about');
+      const fleetSection = document.getElementById('fleet');
+      if (aboutSection && fleetSection) {
+        const fleetStart = fleetSection.offsetTop;
+        const transitionStart = fleetStart - window.innerHeight;
+        const transitionEnd = fleetStart - window.innerHeight / 4;
+        const progress = Math.max(0, Math.min(1, (currentScrollY - transitionStart) / (transitionEnd - transitionStart)));
+        setSectionTransition(progress);
+      }
+      
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollY]);
+
+  // Auto-sliding functionality for trends
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % 3);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-white">
+      {/* Navigation */}
+      <nav 
+        className={`fixed w-full z-50 transition-all duration-300 transform ${
+          isHeaderVisible 
+            ? 'translate-y-0' 
+            : '-translate-y-full'
+        } ${
+          lastScrollY > 100 && isHeaderVisible
+            ? 'bg-white/95 backdrop-blur-sm shadow-md'
+            : 'bg-transparent'
+        }`
+      }>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <div className="flex items-center">
+              <img
+                src={Logo}
+                alt="Rent Then Drive Logo"
+                className="h-12 w-auto"
+              />
+            </div>
+            
+            <div className="hidden md:block">
+              <div className="ml-10 flex items-baseline space-x-8">
+                <a href="#home" className="text-rtd-deep-blue hover:text-rtd-mid-blue font-semibold transition-colors">Home</a>
+                <a href="#about" className="text-rtd-deep-blue hover:text-rtd-mid-blue font-semibold transition-colors">About</a>
+                <a href="#fleet" className="text-rtd-deep-blue hover:text-rtd-mid-blue font-semibold transition-colors">Fleet</a>
+                <a href="#services" className="text-rtd-deep-blue hover:text-rtd-mid-blue font-semibold transition-colors">Services</a>
+                <a href="#contact" className="text-rtd-deep-blue hover:text-rtd-mid-blue font-semibold transition-colors">Contact</a>
+              </div>
+            </div>
+
+            <button
+              className="md:hidden text-rtd-deep-blue"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+            >
+              {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile menu */}
+        {isMenuOpen && (
+          <div className="md:hidden">
+            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white/95 backdrop-blur-sm">
+              <a href="#home" className="block px-3 py-2 text-rtd-deep-blue font-semibold">Home</a>
+              <a href="#about" className="block px-3 py-2 text-rtd-deep-blue font-semibold">About</a>
+              <a href="#fleet" className="block px-3 py-2 text-rtd-deep-blue font-semibold">Fleet</a>
+              <a href="#services" className="block px-3 py-2 text-rtd-deep-blue font-semibold">Services</a>
+              <a href="#contact" className="block px-3 py-2 text-rtd-deep-blue font-semibold">Contact</a>
+            </div>
+          </div>
+        )}
+      </nav>
+
+      {/* Hero Section */}
+      <section id="home" className="relative min-h-screen overflow-hidden bg-white">
+        {/* Semi-transparent background image */}
+        <div className="absolute inset-0 overflow-hidden">
+          <img 
+            src={HeroBackground}
+            alt="Everest background"
+            className="w-full h-full object-cover opacity-50"
+            style={{ objectPosition: '50% 65%' }}
+          />
+        </div>
+        {/* Subtle gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-r from-white via-white/70 to-transparent" style={{
+          maskImage: 'linear-gradient(to right, white 20%, transparent 60%)'
+        }}></div>
+
+        {/* Brand pattern overlay - top right */}
+        <div className="absolute top-0 right-0 w-96 h-96 opacity-20">
+          <div className="w-full h-full" style={{
+            backgroundImage: `radial-gradient(circle at 2px 2px, #02336d 1px, transparent 0)`,
+            backgroundSize: '24px 24px',
+            mask: 'linear-gradient(135deg, black 0%, transparent 60%)'
+          }}></div>
+        </div>
+
+        {/* Brand pattern overlay - bottom left */}
+        <div className="absolute bottom-0 left-0 w-80 h-80 opacity-15">
+          <div className="w-full h-full" style={{
+            backgroundImage: `radial-gradient(circle at 1px 1px, #0172dc 1px, transparent 0)`,
+            backgroundSize: '18px 18px',
+            mask: 'linear-gradient(45deg, black 0%, transparent 70%)'
+          }}></div>
+        </div>
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12 z-10">
+          <div className="flex min-h-[80vh] items-center">
+            <div className="text-rtd-deep-blue max-w-3xl -mt-20 transition-all duration-700">
+              <div className="mb-3">
+                <img
+                  src={Logo3}
+                  alt="Premium Car Rental Service"
+                  className="h-8 w-auto mb-4"
+                />
+              </div>
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6">
+                Premium Driving Experience
+                <span className="block text-rtd-gold">Without Premium Prices</span>
+              </h1>
+              <p className="text-lg sm:text-xl text-rtd-deep-blue/80 mb-8 leading-relaxed">
+                We believe amazing drives shouldn't be exclusive to car owners. With simply a license and a thirst for adventure, you're all set for your dream road trip with us.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 mb-8">
+                <button className="bg-rtd-gold hover:bg-rtd-gold/90 text-rtd-deep-blue font-bold px-8 py-4 rounded-lg text-lg transition-all duration-300 flex items-center justify-center group transform hover:scale-105 hover:shadow-2xl shadow-lg">
+                  Book Your Ride
+                  <ChevronRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                </button>
+                <button className="border-2 border-rtd-deep-blue text-rtd-deep-blue hover:bg-rtd-deep-blue hover:text-white font-bold px-8 py-4 rounded-lg text-lg transition-all duration-300 transform hover:scale-105">
+                  View Our Fleet
+                </button>
+              </div>
+
+              {/* Trust indicators */}
+              <div className="flex flex-wrap gap-6 text-sm text-rtd-deep-blue/70">
+                <div className="flex items-center gap-2">
+                  <Star className="h-4 w-4" />
+                  <span>4.9/5 Customer Rating</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Shield className="h-4 w-4" />
+                  <span>Fully Insured</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Clock className="h-4 w-4" />
+                  <span>Instant Booking</span>
+                </div>
+              </div>
+
+              <div className="mt-12 text-center">
+                <p className="text-2xl sm:text-3xl font-bold text-rtd-deep-blue mb-2">THE RIDE IS YOURS</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Discover Section */}
+      <section className="py-20 bg-white relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mb-12">
+            <h2 className="text-3xl sm:text-4xl font-bold text-rtd-deep-blue">Discover</h2>
+            <div className="w-24 h-1 bg-rtd-gold mt-4"></div>
+          </div>
+          
+          <div className="relative">
+            <div className="flex transition-transform duration-500 ease-in-out" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
+              {[
+                {
+                  title: "Exclusive Discounts",
+                  description: "Unlock premium deals on our luxury fleet with special seasonal offers and member-exclusive rates.",
+                  image: DiscoverStock1,
+                  link: "/discounts"
+                },
+                {
+                  title: "Premium Experience",
+                  description: "Elevate your journey with our curated selection of high-end vehicles and personalized service.",
+                  image: DiscoverStock2,
+                  link: "/experience"
+                },
+                {
+                  title: "Coming Soon: RTD App",
+                  description: "Experience seamless booking and premium car rental service right at your fingertips.",
+                  image: DiscoverStock3,
+                  link: "/app"
+                }
+              ].map((discover, index) => (
+                <div key={index} className="w-full flex-shrink-0 px-4">
+                  <div className="relative group cursor-pointer overflow-hidden rounded-2xl">
+                    <div className="aspect-w-16 aspect-h-9 overflow-hidden">
+                      <img 
+                        src={discover.image}
+                        alt={discover.title}
+                        className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
+                      />
+                    </div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-rtd-deep-blue/90 to-transparent p-8 flex flex-col justify-end transform transition-transform duration-300">
+                      <h3 className="text-2xl font-bold text-white mb-3">{discover.title}</h3>
+                      <p className="text-white/90 mb-4 line-clamp-2">{discover.description}</p>
+                      <button 
+                        className="inline-flex items-center text-rtd-gold hover:text-white transition-colors group/btn"
+                        onClick={() => console.log(`Navigate to ${discover.link}`)}
+                      >
+                        <span className="font-semibold">See more</span>
+                        <ArrowRight className="ml-2 h-5 w-5 transform transition-transform group-hover/btn:translate-x-1" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            
+            {/* Navigation arrows */}
+            <button 
+              onClick={() => setCurrentSlide((prev) => (prev - 1 + 3) % 3)}
+              className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/10 hover:bg-white/20 text-white p-3 rounded-full transition-colors backdrop-blur-sm"
+            >
+              <ChevronLeft className="h-6 w-6" />
+            </button>
+            <button 
+              onClick={() => setCurrentSlide((prev) => (prev + 1) % 3)}
+              className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/10 hover:bg-white/20 text-white p-3 rounded-full transition-colors backdrop-blur-sm"
+            >
+              <ChevronRight className="h-6 w-6" />
+            </button>
+          </div>
+          
+          {/* Dots indicator */}
+          <div className="flex justify-center mt-8 space-x-2">
+            {[0, 1, 2].map((index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentSlide(index)}
+                className={`w-2 h-2 rounded-full transition-colors ${
+                  currentSlide === index ? 'bg-rtd-gold w-6' : 'bg-rtd-deep-blue/20'
+                }`}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* About Section */}
+      <section 
+        id="about" 
+        className="py-20 relative transition-all duration-500" 
+        style={{
+          background: `linear-gradient(135deg, 
+            rgba(1, 114, 220, ${1 - sectionTransition}) 0%, 
+            rgba(89, 174, 255, ${1 - sectionTransition}) 100%
+          )`,
+          opacity: `${1 - sectionTransition * 0.2}`
+        }}>
+        {/* Brand pattern overlay - corner placement per brand book */}
+        <div className="absolute top-0 left-0 w-80 h-80 opacity-12">
+          <div className="w-full h-full" style={{
+            backgroundImage: `radial-gradient(circle at 2px 2px, #02336d 1px, transparent 0)`,
+            backgroundSize: '24px 24px',
+            mask: 'linear-gradient(45deg, black 0%, transparent 55%)'
+          }}></div>
+        </div>
+        
+        <div className="absolute top-0 right-0 w-[45%] h-full overflow-hidden">
+          <img 
+            src={Pattern1} 
+            alt="Pattern" 
+            className="w-full h-full object-cover opacity-10"
+            style={{
+              mask: 'linear-gradient(to left, black 40%, transparent 100%)'
+            }}
+          />
+        </div>
+        
+        <div className="absolute bottom-0 left-0 w-72 h-72 opacity-10">
+          <div className="w-full h-full" style={{
+            backgroundImage: `radial-gradient(circle at 2px 2px, #fac522 1px, transparent 0)`,
+            backgroundSize: '20px 20px',
+            mask: 'linear-gradient(45deg, black 0%, transparent 60%)'
+          }}></div>
+        </div>
+        
+        <div className="absolute bottom-0 right-0 w-96 h-96 opacity-6">
+          <div className="w-full h-full" style={{
+            backgroundImage: `radial-gradient(circle at 1px 1px, #0172dc 1px, transparent 0)`,
+            backgroundSize: '16px 16px',
+            mask: 'linear-gradient(135deg, black 0%, transparent 70%)'
+          }}></div>
+        </div>
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6">About Rent Then Drive</h2>
+            <div className="w-24 h-1 bg-[#fac522] mx-auto rounded-full"></div>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="text-white">
+              <p className="text-lg leading-relaxed mb-6">
+                Rent Then Drive was established out of personal needs and the discovered need for Filipinos to have car access without having to purchase one. That, plus our team's shared love for driving, solidified our mission to provide accessible private transportation to groups and individuals.
+              </p>
+              <p className="text-lg leading-relaxed mb-8">
+                Our brand promise is simple: <strong>we want to give our clients a premium driving experience without the premium price tag.</strong> Our business model values three key client benefits: convenience, constant support, and comfort.
+              </p>
+              
+              <div className="grid sm:grid-cols-3 gap-6">
+                <div className="text-center">
+                  <div className="bg-[#fac522] w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Users className="h-8 w-8 text-[#02336d]" />
+                  </div>
+                  <h3 className="font-bold text-lg mb-2">Convenience</h3>
+                  <p className="text-blue-100">Easy booking and direct customer communication</p>
+                </div>
+                
+                <div className="text-center">
+                  <div className="bg-[#fac522] w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Shield className="h-8 w-8 text-[#02336d]" />
+                  </div>
+                  <h3 className="font-bold text-lg mb-2">Constant Support</h3>
+                  <p className="text-blue-100">We're here throughout your entire journey</p>
+                </div>
+                
+                <div className="text-center">
+                  <div className="bg-[#fac522] w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Star className="h-8 w-8 text-[#02336d]" />
+                  </div>
+                  <h3 className="font-bold text-lg mb-2">Comfort</h3>
+                  <p className="text-blue-100">High-grade vehicles for your comfort</p>
+                </div>
+              </div>
+            </div>
+            
+            <div>
+              <img 
+                src="https://images.pexels.com/photos/1719648/pexels-photo-1719648.jpeg?auto=compress&cs=tinysrgb&w=800"
+                alt="Family enjoying road trip"
+                className="w-full rounded-2xl shadow-2xl"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Fleet Section */}
+      <section id="fleet" className="py-20 bg-white overflow-hidden transition-all duration-500" style={{
+        opacity: sectionTransition,
+        transform: `translateY(${(1 - sectionTransition) * 50}px)`
+      }}>
+        <div className="max-w-[90vw] mx-auto">
+          <div className="text-center mb-16 px-4">
+            <h2 className="text-3xl sm:text-4xl font-bold text-rtd-deep-blue mb-6">Our Premium Fleet</h2>
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+              We curate our fleet by choosing vehicles that align with our vision of having a high-grade roster for every adventure.
+            </p>
+            <div className="w-24 h-1 bg-rtd-gold mx-auto rounded-full mt-6"></div>
+          </div>
+
+          <div className="space-y-8 -mx-[10vw]">
+            {/* First Row: Compact Cars and SUVs */}
+            <div className="flex h-[500px] gap-8">
+              <div className="w-1/2 relative group overflow-hidden">
+                <img 
+                  src={HondaCivic} 
+                  alt="Compact Cars" 
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-rtd-deep-blue/90 via-rtd-deep-blue/50 to-transparent">
+                  <div className="absolute top-12 left-1/2 -translate-x-1/2 text-center">
+                    <h3 className="text-4xl font-bold text-white mb-2">Compact Cars</h3>
+                  </div>
+                  <div className="absolute bottom-12 left-1/2 -translate-x-1/2">
+                    <button className="inline-flex items-center text-rtd-gold hover:text-white transition-colors group/btn gap-2">
+                      <span className="font-semibold text-lg">See more</span>
+                      <ArrowRight className="h-5 w-5 transform transition-transform group-hover/btn:translate-x-1" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div className="w-1/2 relative group overflow-hidden">
+                <img 
+                  src={Montero} 
+                  alt="SUVs" 
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-rtd-deep-blue/90 via-rtd-deep-blue/50 to-transparent">
+                  <div className="absolute top-12 left-1/2 -translate-x-1/2 text-center">
+                    <h3 className="text-4xl font-bold text-white mb-2">SUVs</h3>
+                  </div>
+                  <div className="absolute bottom-12 left-1/2 -translate-x-1/2">
+                    <button className="inline-flex items-center text-rtd-gold hover:text-white transition-colors group/btn gap-2">
+                      <span className="font-semibold text-lg">See more</span>
+                      <ArrowRight className="h-5 w-5 transform transition-transform group-hover/btn:translate-x-1" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Second Row: Hatchbacks and Pick-ups */}
+            <div className="flex h-[500px] gap-8">
+              <div className="w-1/2 relative group overflow-hidden">
+                <img 
+                  src={Hatchback} 
+                  alt="Hatchbacks" 
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-rtd-deep-blue/90 via-rtd-deep-blue/50 to-transparent">
+                  <div className="absolute top-12 left-1/2 -translate-x-1/2 text-center">
+                    <h3 className="text-4xl font-bold text-white mb-2">Hatchbacks</h3>
+                  </div>
+                  <div className="absolute bottom-12 left-1/2 -translate-x-1/2">
+                    <button className="inline-flex items-center text-rtd-gold hover:text-white transition-colors group/btn gap-2">
+                      <span className="font-semibold text-lg">See more</span>
+                      <ArrowRight className="h-5 w-5 transform transition-transform group-hover/btn:translate-x-1" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div className="w-1/2 relative group overflow-hidden">
+                <img 
+                  src={FordRanger} 
+                  alt="Pick-ups" 
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-rtd-deep-blue/90 via-rtd-deep-blue/50 to-transparent">
+                  <div className="absolute top-12 left-1/2 -translate-x-1/2 text-center">
+                    <h3 className="text-4xl font-bold text-white mb-2">Pick-ups</h3>
+                  </div>
+                  <div className="absolute bottom-12 left-1/2 -translate-x-1/2">
+                    <button className="inline-flex items-center text-rtd-gold hover:text-white transition-colors group/btn gap-2">
+                      <span className="font-semibold text-lg">See more</span>
+                      <ArrowRight className="h-5 w-5 transform transition-transform group-hover/btn:translate-x-1" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Third Row: Premium Sedans and Luxury Cars */}
+            <div className="flex h-[500px] gap-8">
+              <div className="w-1/2 relative group overflow-hidden">
+                <img 
+                  src={Lexus} 
+                  alt="Premium Sedans" 
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-rtd-deep-blue/90 via-rtd-deep-blue/50 to-transparent">
+                  <div className="absolute top-12 left-1/2 -translate-x-1/2 text-center">
+                    <h3 className="text-4xl font-bold text-white mb-2">Premium Sedans</h3>
+                  </div>
+                  <div className="absolute bottom-12 left-1/2 -translate-x-1/2">
+                    <button className="inline-flex items-center text-rtd-gold hover:text-white transition-colors group/btn gap-2">
+                      <span className="font-semibold text-lg">See more</span>
+                      <ArrowRight className="h-5 w-5 transform transition-transform group-hover/btn:translate-x-1" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div className="w-1/2 relative group overflow-hidden">
+                <img 
+                  src={Ferrari} 
+                  alt="Luxury Cars" 
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-rtd-deep-blue/90 via-rtd-deep-blue/50 to-transparent">
+                  <div className="absolute top-12 left-1/2 -translate-x-1/2 text-center">
+                    <h3 className="text-4xl font-bold text-white mb-2">Luxury Cars</h3>
+                  </div>
+                  <div className="absolute bottom-12 left-1/2 -translate-x-1/2">
+                    <button className="inline-flex items-center text-rtd-gold hover:text-white transition-colors group/btn gap-2">
+                      <span className="font-semibold text-lg">See more</span>
+                      <ArrowRight className="h-5 w-5 transform transition-transform group-hover/btn:translate-x-1" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+  {/* Services Section */}
+        <section id="services" className="py-20 bg-rtd-offwhite">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl sm:text-4xl font-bold text-[#02336d] mb-6">For the Savvy Wanderers</h2>
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+              We optimize online platforms for easy and direct customer communication, ensuring you get the best service throughout your journey.
+            </p>
+            <div className="w-24 h-1 bg-[#fac522] mx-auto rounded-full mt-6"></div>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {[
+              {
+                icon: <Calendar className="h-12 w-12" />,
+                title: "Easy Booking",
+                description: "Simple online booking system with instant confirmation"
+              },
+              {
+                icon: <Clock className="h-12 w-12" />,
+                title: "24/7 Support",
+                description: "Round-the-clock customer support for your peace of mind"
+              },
+              {
+                icon: <MapPin className="h-12 w-12" />,
+                title: "Flexible Pickup",
+                description: "Multiple pickup locations across the metro"
+              },
+              {
+                icon: <Car className="h-12 w-12" />,
+                title: "Quality Assured",
+                description: "Well-maintained vehicles inspected before every trip"
+              }
+            ].map((service, index) => (
+              <div key={index} className="bg-white rounded-xl p-8 text-center shadow-lg border border-gray-100 hover:shadow-xl transition-shadow">
+                <div className="text-[#0172dc] mb-6 flex justify-center">
+                  {service.icon}
+                </div>
+                <h3 className="text-xl font-bold text-[#02336d] mb-4">{service.title}</h3>
+                <p className="text-gray-600 leading-relaxed">{service.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+  {/* Testimonials Section */}
+        <section className="py-20 bg-rtd-offwhite">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl sm:text-4xl font-bold text-[#02336d] mb-6">What Our Clients Say</h2>
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+              Don't just take our word for it. Here's what our satisfied customers have to say about their experience with Rent Then Drive.
+            </p>
+            <div className="w-24 h-1 bg-[#fac522] mx-auto rounded-full mt-6"></div>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {[
+              {
+                name: "Sarah Johnson",
+                role: "Business Executive",
+                image: "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=150",
+                rating: 5,
+                review: "Exceptional service! The car was clean, reliable, and the booking process was seamless. Highly recommended!"
+              },
+              {
+                name: "Michael Chen",
+                role: "Family Man",
+                image: "https://images.pexels.com/photos/1040880/pexels-photo-1040880.jpeg?auto=compress&cs=tinysrgb&w=150",
+                rating: 5,
+                review: "Perfect for our family road trip. The SUV was spacious and comfortable. Great value for money!"
+              },
+              {
+                name: "Emily Rodriguez",
+                role: "Travel Blogger",
+                image: "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=150",
+                rating: 5,
+                review: "Amazing experience! The staff was friendly and the car exceeded my expectations. Will definitely use again!"
+              },
+              {
+                name: "David Park",
+                role: "Corporate Client",
+                image: "https://images.pexels.com/photos/1040881/pexels-photo-1040881.jpeg?auto=compress&cs=tinysrgb&w=150",
+                rating: 5,
+                review: "Professional service with premium vehicles. Made my business trip comfortable and stress-free."
+              }
+            ].map((testimonial, index) => (
+              <div key={index} className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-shadow">
+                <div className="flex items-center mb-4">
+                  <img 
+                    src={testimonial.image}
+                    alt={testimonial.name}
+                    className="w-12 h-12 rounded-full object-cover mr-4"
+                  />
+                  <div>
+                    <h4 className="font-bold text-[#02336d]">{testimonial.name}</h4>
+                    <p className="text-sm text-gray-600">{testimonial.role}</p>
+                  </div>
+                </div>
+                
+                <div className="flex mb-3">
+                  {[...Array(testimonial.rating)].map((_, i) => (
+                    <Star key={i} className="h-4 w-4 text-[#fac522] fill-current" />
+                  ))}
+                </div>
+                
+                <p className="text-gray-600 italic">"{testimonial.review}"</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-20 bg-gradient-to-r from-rtd-deep-blue to-rtd-mid-blue relative">
+        {/* Brand pattern overlay - corner placement */}
+        <div className="absolute top-0 right-0 w-72 h-72 opacity-15">
+          <div className="w-full h-full" style={{
+            backgroundImage: `radial-gradient(circle at 2px 2px, #fac522 1px, transparent 0)`,
+            backgroundSize: '22px 22px',
+            mask: 'linear-gradient(135deg, black 0%, transparent 65%)'
+          }}></div>
+        </div>
+        
+        <div className="absolute bottom-0 left-0 w-96 h-96 opacity-12">
+          <div className="w-full h-full" style={{
+            backgroundImage: `radial-gradient(circle at 1px 1px, #59aeff 1px, transparent 0)`,
+            backgroundSize: '18px 18px',
+            mask: 'linear-gradient(45deg, black 0%, transparent 55%)'
+          }}></div>
+        </div>
+        
+        <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8 relative">
+          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6">
+            Ready for Your Next Adventure?
+          </h2>
+          <p className="text-xl text-blue-100 mb-8 leading-relaxed">
+            With simply a license and a thirst for adventure, you're all set for your dream road trip with us.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <button className="bg-[#fac522] hover:bg-[#e6b01f] text-[#02336d] font-bold px-8 py-4 rounded-lg text-lg transition-colors inline-flex items-center justify-center group">
+              Book Your Adventure
+              <ChevronRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+            </button>
+            <button className="border-2 border-white text-white hover:bg-white hover:text-[#02336d] font-bold px-8 py-4 rounded-lg text-lg transition-colors">
+              Check Availability
+            </button>
+          </div>
+          <p className="text-2xl sm:text-3xl font-bold text-[#fac522] mt-12">THE RIDE IS YOURS</p>
+        </div>
+      </section>
+
+      {/* FAQs Section */}
+      <section className="py-20 bg-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl sm:text-4xl font-bold text-[#02336d] mb-6">Frequently Asked Questions</h2>
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+              Find answers to common questions about our car rental services.
+            </p>
+            <div className="w-24 h-1 bg-[#fac522] mx-auto rounded-full mt-6"></div>
+          </div>
+
+          <div className="space-y-4">
+            {[
+              {
+                question: "What documents do I need to rent a car?",
+                answer: "You'll need a valid driver's license, a credit card for the security deposit, and a valid ID. International visitors may need an international driving permit."
+              },
+              {
+                question: "Do you offer long-term rentals?",
+                answer: "Yes! We offer flexible long-term rental options with discounted rates for rentals over 30 days. Contact us for custom pricing."
+              },
+              {
+                question: "Can I pick up and drop off at different locations?",
+                answer: "Absolutely! We offer one-way rentals between our locations for a small additional fee. Perfect for road trips!"
+              },
+              {
+                question: "Is insurance included in the rental price?",
+                answer: "Basic insurance is included, but we also offer comprehensive coverage options for additional peace of mind during your rental period."
+              },
+              {
+                question: "What is your cancellation policy?",
+                answer: "Free cancellation up to 24 hours before your rental start time. Cancellations within 24 hours may incur a small fee."
+              },
+              {
+                question: "Do you provide child safety seats?",
+                answer: "Yes, we have child safety seats available for rent. Please request them during booking to ensure availability."
+              }
+            ].map((faq, index) => (
+              <div key={index} className="bg-white border border-gray-200 rounded-lg shadow-sm">
+                <button
+                  className="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-offwhite transition-colors"
+                  onClick={() => setOpenFAQ(openFAQ === index ? null : index)}
+                >
+                  <span className="font-semibold text-[#02336d]">{faq.question}</span>
+                  {openFAQ === index ? (
+                    <ChevronUp className="h-5 w-5 text-[#0172dc]" />
+                  ) : (
+                    <ChevronDown className="h-5 w-5 text-[#0172dc]" />
+                  )}
+                </button>
+                {openFAQ === index && (
+                  <div className="px-6 pb-4">
+                    <p className="text-gray-600 leading-relaxed">{faq.answer}</p>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section id="contact" className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl sm:text-4xl font-bold text-[#02336d] mb-6">Get in Touch</h2>
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+              Ready to start your journey? We're here to help you plan the perfect trip.
+            </p>
+            <div className="w-24 h-1 bg-[#fac522] mx-auto rounded-full mt-6"></div>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-12">
+            <div>
+              <h3 className="text-2xl font-bold text-[#02336d] mb-6">Contact Information</h3>
+              
+              <div className="space-y-6">
+                <div className="flex items-center">
+                  <div className="bg-[#0172dc] w-12 h-12 rounded-full flex items-center justify-center mr-4">
+                    <Phone className="h-6 w-6 text-white" />
+                  </div>
+                  <div>
+                    <p className="font-semibold text-[#02336d]">Phone</p>
+                    <p className="text-gray-600">+63 912 345 6789</p>
+                  </div>
+                </div>
+                
+                <div className="flex items-center">
+                  <div className="bg-[#0172dc] w-12 h-12 rounded-full flex items-center justify-center mr-4">
+                    <Mail className="h-6 w-6 text-white" />
+                  </div>
+                  <div>
+                    <p className="font-semibold text-[#02336d]">Email</p>
+                    <p className="text-gray-600">hello@rentthendrive.com</p>
+                  </div>
+                </div>
+                
+                <div className="flex items-center">
+                  <div className="bg-[#0172dc] w-12 h-12 rounded-full flex items-center justify-center mr-4">
+                    <MapPin className="h-6 w-6 text-white" />
+                  </div>
+                  <div>
+                    <p className="font-semibold text-[#02336d]">Location</p>
+                    <p className="text-gray-600">Metro Manila, Philippines</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-8 p-6 bg-gradient-to-br from-[#0172dc]/5 to-[#59aeff]/5 rounded-xl border border-[#0172dc]/10">
+                <h4 className="font-bold text-[#02336d] mb-2">Business Hours</h4>
+                <p className="text-gray-600">Monday - Sunday: 6:00 AM - 10:00 PM</p>
+              </div>
+            </div>
+
+            <div className="bg-rtd-offwhite rounded-2xl p-8">
+              <h3 className="text-2xl font-bold text-[#02336d] mb-6">Send us a Message</h3>
+              
+              <form className="space-y-6">
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <input
+                    type="text"
+                    placeholder="First Name"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0172dc] focus:border-transparent"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Last Name"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0172dc] focus:border-transparent"
+                  />
+                </div>
+                
+                <input
+                  type="email"
+                  placeholder="Email Address"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0172dc] focus:border-transparent"
+                />
+                
+                <input
+                  type="tel"
+                  placeholder="Phone Number"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0172dc] focus:border-transparent"
+                />
+                
+                <textarea
+                  rows={4}
+                  placeholder="Tell us about your rental needs..."
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0172dc] focus:border-transparent resize-none"
+                ></textarea>
+                
+                <button
+                  type="submit"
+                  className="w-full bg-[#0172dc] hover:bg-[#02336d] text-white font-bold py-4 px-6 rounded-lg transition-colors flex items-center justify-center group"
+                >
+                  Send Message
+                  <ChevronRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-gradient-to-br from-rtd-deep-blue to-rtd-navy text-white py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid md:grid-cols-4 gap-8">
+            <div className="md:col-span-2">
+              <div className="flex items-center mb-4">
+                <img
+                  src={Logo4}
+                  alt="Rent Then Drive Logo"
+                  className="h-12 w-auto"
+                />
+              </div>
+              <p className="text-blue-200 leading-relaxed mb-6">
+                We provide accessible private transportation to groups and individuals, delivering premium driving experiences without premium prices.
+              </p>
+              <p className="text-[#fac522] font-bold text-xl">THE RIDE IS YOURS</p>
+            </div>
+            
+            <div>
+              <h4 className="font-bold text-lg mb-4">Services</h4>
+              <ul className="space-y-2 text-blue-200">
+                <li><a href="#" className="hover:text-white transition-colors">Car Rental</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Long-term Rental</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Airport Transfer</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Corporate Rental</a></li>
+              </ul>
+            </div>
+            
+            <div>
+              <h4 className="font-bold text-lg mb-4">Contact</h4>
+              <ul className="space-y-2 text-blue-200">
+                <li>+63 912 345 6789</li>
+                <li>hello@rentthendrive.com</li>
+                <li>Metro Manila, Philippines</li>
+              </ul>
+            </div>
+          </div>
+          
+          <div className="border-t border-blue-800 mt-8 pt-8 text-center">
+            <p className="text-blue-200">
+              © 2024 Rent Then Drive. All rights reserved.
+            </p>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}
+
+export default App;
