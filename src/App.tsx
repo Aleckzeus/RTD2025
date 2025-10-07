@@ -1,5 +1,9 @@
 import React from 'react';
 import { Car, Users, Shield, Clock, Star, MapPin, Phone, Mail, Calendar, ChevronRight, Menu, X, ChevronLeft, ChevronDown, ChevronUp, ArrowRight } from 'lucide-react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 import Logo from './Logo.png';
 import Logo4 from './Logo_4.png';
 import HeroBackground from './Everest_Blue.png'; // Re-import HD background
@@ -82,12 +86,12 @@ function App() {
         }`
       }>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
+          <div className="flex justify-between items-center h-20 sm:h-16">
             <div className="flex items-center">
               <img
                 src={Logo}
                 alt="Rent Then Drive Logo"
-                className="h-12 w-auto"
+                className="h-10 sm:h-12 w-auto"
                 loading="eager"
                 decoding="async"
               />
@@ -130,7 +134,21 @@ function App() {
       {/* Hero Section */}
       <section id="home" className="relative min-h-screen overflow-hidden bg-white">
         {/* Semi-transparent background image */}
-        <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute inset-0 overflow-hidden opacity-50" ref={el => {
+          if (el) {
+            gsap.to(el, {
+              scrollTrigger: {
+                trigger: el,
+                start: 'top top',
+                end: 'bottom top',
+                scrub: true
+              },
+              opacity: 0,
+              scale: 1.1,
+              ease: 'none'
+            });
+          }
+        }}>
           <img 
             src={HeroBackground}
             alt="Everest background"
@@ -141,8 +159,8 @@ function App() {
           />
         </div>
         {/* Subtle gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-white via-white/70 to-transparent" style={{
-          maskImage: 'linear-gradient(to right, white 20%, transparent 60%)'
+        <div className="absolute inset-0" style={{
+          background: 'linear-gradient(100deg, white 25%, rgba(255,255,255,0.95) 35%, rgba(255,255,255,0.5) 50%, transparent 65%)'
         }}></div>
 
         {/* Brand pattern overlay - top right */}
@@ -163,7 +181,7 @@ function App() {
           }}></div>
         </div>
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12 z-10">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 sm:pt-24 pb-12 z-10">
           <div className="flex min-h-[80vh] items-center">
             <div className="text-rtd-deep-blue max-w-3xl -mt-20 transition-all duration-700">
               <div className="mb-3">
@@ -177,7 +195,18 @@ function App() {
               </div>
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6">
                 Premium Driving Experience
-                <span className="block text-rtd-gold">Without Premium Prices</span>
+                <span className="block relative mt-2 -ml-1">
+                  <span className="relative inline-block pl-0 py-2">
+                    <span className="relative inline-block text-rtd-gold font-bold" style={{
+                      textShadow: `
+                        1px 1px 2px rgba(2, 51, 109, 0.2),
+                        0px 0px 15px rgba(255, 255, 255, 0.6)
+                      `
+                    }}>
+                      Without Premium Prices
+                    </span>
+                  </span>
+                </span>
               </h1>
               <p className="text-lg sm:text-xl text-rtd-deep-blue/80 mb-8 leading-relaxed">
                 We believe amazing drives shouldn't be exclusive to car owners. With simply a license and a thirst for adventure, you're all set for your dream road trip with us.
@@ -192,23 +221,7 @@ function App() {
                 </button>
               </div>
 
-              {/* Trust indicators */}
-              <div className="flex flex-wrap gap-6 text-sm text-rtd-deep-blue/70">
-                <div className="flex items-center gap-2">
-                  <Star className="h-4 w-4" />
-                  <span>4.9/5 Customer Rating</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Shield className="h-4 w-4" />
-                  <span>Fully Insured</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Clock className="h-4 w-4" />
-                  <span>Instant Booking</span>
-                </div>
-              </div>
-
-              <div className="mt-12 text-center">
+              <div className="mt-12">
                 <p className="text-2xl sm:text-3xl font-bold text-rtd-deep-blue mb-2">THE RIDE IS YOURS</p>
               </div>
             </div>
@@ -220,8 +233,26 @@ function App() {
       <section className="py-20 bg-white relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold text-rtd-deep-blue">Discover</h2>
-            <div className="w-24 h-1 bg-rtd-gold mt-4"></div>
+            <div ref={el => {
+              if (el) {
+                gsap.fromTo(el, {
+                  opacity: 0,
+                  y: 30
+                }, {
+                  opacity: 1,
+                  y: 0,
+                  duration: 0.8,
+                  scrollTrigger: {
+                    trigger: el,
+                    start: 'top bottom-=100',
+                    once: true
+                  }
+                });
+              }
+            }}>
+              <h2 className="text-3xl sm:text-4xl font-bold text-rtd-deep-blue">Discover</h2>
+              <div className="w-24 h-1 bg-rtd-gold mt-4"></div>
+            </div>
           </div>
           
           <div className="relative">
@@ -355,8 +386,26 @@ function App() {
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6">About Rent Then Drive</h2>
-            <div className="w-24 h-1 bg-[#fac522] mx-auto rounded-full"></div>
+            <div ref={el => {
+              if (el) {
+                gsap.fromTo(el, {
+                  opacity: 0,
+                  y: 30
+                }, {
+                  opacity: 1,
+                  y: 0,
+                  duration: 0.8,
+                  scrollTrigger: {
+                    trigger: el,
+                    start: 'top bottom-=100',
+                    once: true
+                  }
+                });
+              }
+            }}>
+              <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6">About Rent Then Drive</h2>
+              <div className="w-24 h-1 bg-[#fac522] mx-auto rounded-full"></div>
+            </div>
           </div>
 
           <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -368,29 +417,29 @@ function App() {
                 Our brand promise is simple: <strong>we want to give our clients a premium driving experience without the premium price tag.</strong> Our business model values three key client benefits: convenience, constant support, and comfort.
               </p>
               
-              <div className="grid sm:grid-cols-3 gap-6">
+              <div className="grid grid-cols-3 gap-2 sm:gap-6">
                 <div className="text-center">
-                  <div className="bg-[#fac522] w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Users className="h-8 w-8 text-[#02336d]" />
+                  <div className="bg-[#fac522] w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center mx-auto mb-2 sm:mb-4">
+                    <Users className="h-6 w-6 sm:h-8 sm:w-8 text-[#02336d]" />
                   </div>
-                  <h3 className="font-bold text-lg mb-2">Convenience</h3>
-                  <p className="text-blue-100">Easy booking and direct customer communication</p>
+                  <h3 className="font-bold text-sm sm:text-lg mb-1 sm:mb-2">Convenience</h3>
+                  <p className="text-blue-100 text-xs sm:text-base">Easy booking and direct customer communication</p>
                 </div>
                 
                 <div className="text-center">
-                  <div className="bg-[#fac522] w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Shield className="h-8 w-8 text-[#02336d]" />
+                  <div className="bg-[#fac522] w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center mx-auto mb-2 sm:mb-4">
+                    <Shield className="h-6 w-6 sm:h-8 sm:w-8 text-[#02336d]" />
                   </div>
-                  <h3 className="font-bold text-lg mb-2">Constant Support</h3>
-                  <p className="text-blue-100">We're here throughout your entire journey</p>
+                  <h3 className="font-bold text-sm sm:text-lg mb-1 sm:mb-2">Constant Support</h3>
+                  <p className="text-blue-100 text-xs sm:text-base">We're here throughout your entire journey</p>
                 </div>
                 
                 <div className="text-center">
-                  <div className="bg-[#fac522] w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Star className="h-8 w-8 text-[#02336d]" />
+                  <div className="bg-[#fac522] w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center mx-auto mb-2 sm:mb-4">
+                    <Star className="h-6 w-6 sm:h-8 sm:w-8 text-[#02336d]" />
                   </div>
-                  <h3 className="font-bold text-lg mb-2">Comfort</h3>
-                  <p className="text-blue-100">High-grade vehicles for your comfort</p>
+                  <h3 className="font-bold text-sm sm:text-lg mb-1 sm:mb-2">Comfort</h3>
+                  <p className="text-blue-100 text-xs sm:text-base">High-grade vehicles for your comfort</p>
                 </div>
               </div>
             </div>
@@ -413,11 +462,29 @@ function App() {
       }}>
         <div className="max-w-[90vw] mx-auto">
           <div className="text-center mb-16 px-4">
-            <h2 className="text-3xl sm:text-4xl font-bold text-rtd-deep-blue mb-6">Our Premium Fleet</h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              We curate our fleet by choosing vehicles that align with our vision of having a high-grade roster for every adventure.
-            </p>
-            <div className="w-24 h-1 bg-rtd-gold mx-auto rounded-full mt-6"></div>
+            <div ref={el => {
+              if (el) {
+                gsap.fromTo(el, {
+                  opacity: 0,
+                  y: 30
+                }, {
+                  opacity: 1,
+                  y: 0,
+                  duration: 0.8,
+                  scrollTrigger: {
+                    trigger: el,
+                    start: 'top bottom-=100',
+                    once: true
+                  }
+                });
+              }
+            }}>
+              <h2 className="text-3xl sm:text-4xl font-bold text-rtd-deep-blue mb-6">Our Premium Fleet</h2>
+              <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+                We curate our fleet by choosing vehicles that align with our vision of having a high-grade roster for every adventure.
+              </p>
+              <div className="w-24 h-1 bg-rtd-gold mx-auto rounded-full mt-6"></div>
+            </div>
           </div>
 
           <div className="space-y-8 -mx-[10vw]">
@@ -606,11 +673,29 @@ function App() {
         <section className="py-20 bg-rtd-offwhite">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold text-[#02336d] mb-6">What Our Clients Say</h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              Don't just take our word for it. Here's what our satisfied customers have to say about their experience with Rent Then Drive.
-            </p>
-            <div className="w-24 h-1 bg-[#fac522] mx-auto rounded-full mt-6"></div>
+            <div ref={el => {
+              if (el) {
+                gsap.fromTo(el, {
+                  opacity: 0,
+                  y: 30
+                }, {
+                  opacity: 1,
+                  y: 0,
+                  duration: 0.8,
+                  scrollTrigger: {
+                    trigger: el,
+                    start: 'top bottom-=100',
+                    once: true
+                  }
+                });
+              }
+            }}>
+              <h2 className="text-3xl sm:text-4xl font-bold text-[#02336d] mb-6">What Our Clients Say</h2>
+              <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+                Don't just take our word for it. Here's what our satisfied customers have to say about their experience with Rent Then Drive.
+              </p>
+              <div className="w-24 h-1 bg-[#fac522] mx-auto rounded-full mt-6"></div>
+            </div>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -774,11 +859,29 @@ function App() {
       <section id="contact" className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold text-[#02336d] mb-6">Get in Touch</h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              Ready to start your journey? We're here to help you plan the perfect trip.
-            </p>
-            <div className="w-24 h-1 bg-[#fac522] mx-auto rounded-full mt-6"></div>
+            <div ref={el => {
+              if (el) {
+                gsap.fromTo(el, {
+                  opacity: 0,
+                  y: 30
+                }, {
+                  opacity: 1,
+                  y: 0,
+                  duration: 0.8,
+                  scrollTrigger: {
+                    trigger: el,
+                    start: 'top bottom-=100',
+                    once: true
+                  }
+                });
+              }
+            }}>
+              <h2 className="text-3xl sm:text-4xl font-bold text-[#02336d] mb-6">Get in Touch</h2>
+              <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+                Ready to start your journey? We're here to help you plan the perfect trip.
+              </p>
+              <div className="w-24 h-1 bg-[#fac522] mx-auto rounded-full mt-6"></div>
+            </div>
           </div>
 
           <div className="grid lg:grid-cols-2 gap-12">
